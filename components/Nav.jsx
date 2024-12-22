@@ -3,21 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { getProviders, signIn, signOut } from "next-auth/react";
+import { getProviders, signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const Nav = () => {
-    const isUserLoggedIn = true;
+    const { data: session } = useSession();
+
     const [providers, setProviders] = useState(null);
     const [toggleDropdown, SetToggleDropdown] = useState(false);
 
     useEffect(() => {
-        const setProviders = async () => {
+        const fetchProviders = async () => {
             const response = await getProviders();
             setProviders(response);
         };
-
-        setProviders();
+        fetchProviders();
     }, []);
 
     return (
@@ -36,7 +36,7 @@ const Nav = () => {
 
                 {/* Desktop navigation */}
                 <div className="hidden sm:flex">
-                    {isUserLoggedIn ? (
+                    {session?.user ? (
                         <div className="flex gap-3 md:gap-5">
                             <Link href={`create-promt`} className="black_btn">
                                 Create Post
@@ -50,7 +50,7 @@ const Nav = () => {
                             </button>
                             <Link href={`profile`}>
                                 <Image
-                                    src={`assets/images/logo.svg`}
+                                    src={session?.user.image}
                                     width={30}
                                     height={30}
                                     className="rounded-full"
@@ -81,10 +81,10 @@ const Nav = () => {
 
                 {/* Mobile navigation */}
                 <div className="sm:hidden flex relative">
-                    {isUserLoggedIn ? (
+                    {session?.user ? (
                         <div className="flex">
                             <Image
-                                src={`assets/images/logo.svg`}
+                                src={session?.user.image}
                                 width={30}
                                 height={30}
                                 className="rounded-full"
