@@ -32,7 +32,7 @@ const UpdatePrompt = () => {
         }
     }, [promptId]);
 
-    const UpdatePrompt = async (e) => {
+    const updateSinglePrompt = async (e) => {
         e.preventDefault();
         setSubmitting(true);
 
@@ -68,7 +68,7 @@ const UpdatePrompt = () => {
                         post={post}
                         setPost={setPost}
                         submitting={submitting}
-                        handleSubmit={updatePrompt}
+                        handleSubmit={updateSinglePrompt}
                     />
                 ) : (
                     <div>No prompt ID found.</div>
