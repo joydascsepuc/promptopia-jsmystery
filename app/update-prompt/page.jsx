@@ -61,14 +61,18 @@ const UpdatePrompt = () => {
 
     return (
         <>
-            <Suspense>
-                <Form
-                    type="Edit"
-                    post={post}
-                    setPost={setPost}
-                    submitting={submitting}
-                    handleSubmit={UpdatePrompt}
-                />
+            <Suspense fallback={<div>Loading...</div>}>
+                {promptId ? (
+                    <Form
+                        type="Edit"
+                        post={post}
+                        setPost={setPost}
+                        submitting={submitting}
+                        handleSubmit={updatePrompt}
+                    />
+                ) : (
+                    <div>No prompt ID found.</div>
+                )}
             </Suspense>
         </>
     );
